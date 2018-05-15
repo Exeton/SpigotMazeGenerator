@@ -8,5 +8,4 @@ I've got some plans for this plugin and will be updating it soon.
 ![alt text](https://github.com/Exeton/SpigotMazeGenerator/blob/master/Sample%20Maze.png?raw=true)
 
 
-A huge maze
 ![alt text](https://github.com/Exeton/SpigotMazeGenerator/blob/master/Huge%20Maze.png?raw=true)
