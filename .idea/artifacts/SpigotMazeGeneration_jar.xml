@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="SpigotMazeGeneration:jar">
+    <output-path>$USER_HOME$/Desktop/Server/plugins</output-path>
+    <root id="archive" name="SpigotMazeGeneration.jar">
+      <element id="module-output" name="SpigotMazeGeneration" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/Server/spigot.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,7 @@
+#Don't forget to configure your spigot.yml file
+main: fire.MazeGeneration.MazeGeneration
+name: MazeGenerator
+version: 1.0
+author: FireFlower
+description: Used to make mazes :D
+load: startup
