@@ -1,5 +1,6 @@
-package fire.MazeGeneration;
+package fire.MazeGeneration.MazePopulators;
 
+import fire.MazeGeneration.BuildingGenerator;
 import org.bukkit.*;
 import org.bukkit.generator.BlockPopulator;
 
@@ -23,7 +24,8 @@ public class MazeStructurePopulator extends BlockPopulator {
 
     private int numOfCellsX;
     private int numOfCellsZ;
-    BuildingGenerator buildingGenerator = new BuildingGenerator(100, 3, Material.WOOD, Material.STONE);;
+    Random r = new Random();
+    public BuildingGenerator buildingGenerator = new BuildingGenerator(100, 3, Material.WOOD, Material.STONE);;
 
     public MazeStructurePopulator()
     {
@@ -48,40 +50,48 @@ public class MazeStructurePopulator extends BlockPopulator {
 
     @Override
     public void populate(World world, Random random, Chunk chunk) {
-        if (chunckHasMazeStructure(chunk)){//
-            buildingGenerator.setChunk(chunk);
-            MazeTile[][] sectionOfMaze = mazeGenerator.getMazeTiles(8 * chunk.getX(),8 * chunk.getZ() , 8,8);
+        generateMazeSection(world, random, chunk);
+    }
 
-            if (sectionOfMaze.length == 0){
-                makeMazeWalls(chunk, sectionOfMaze);
-                return;
-            }
-            updateNumberOfCells(sectionOfMaze);
+    public void generateMazeSection(World world, Random random, Chunk chunk){
+        if (!chunckHasMazeStructure(chunk)){
+            return;
+        }
+        MazeTile[][] sectionOfMaze = mazeGenerator.getMazeTiles(8 * chunk.getX(),8 * chunk.getZ() , 8,8);
+        updateNumberOfCells(sectionOfMaze);
 
-            buildingGenerator.makeChunkFloor(numOfCellsX *2, numOfCellsZ * 2);
-            buildingGenerator.makeGrid(numOfCellsX * 2, numOfCellsZ * 2);
-            //Carve out odd blocks
-            for (int x = 0; x < 8; x++){
-                for (int z = 0; z < 8; z++) {
-                    int blockX = 2 * x + 1;
-                    int blockZ = 2 * z + 1;
-                    if (!sectionOfMaze[x][z].hasWall(Direction.North)){
-                        buildingGenerator.clearPillar(new Vector(blockX , 101, blockZ - 1), 3);
-                    }
-                    if (!sectionOfMaze[x][z].hasWall(Direction.West)){
-                        buildingGenerator.clearPillar(new Vector(blockX -1, 101, blockZ), 3);
-                    }
+        //Todo refactor into a new method (When adding support for maze tile lengths that aren't a multiple of 8)
+        if (sectionOfMaze.length == 0){
+            makeMazeWalls(chunk, sectionOfMaze);
+            return;
+        }
+
+        buildingGenerator.setChunk(chunk);
+        buildingGenerator.makeChunkFloor(numOfCellsX *2, numOfCellsZ * 2);
+        buildingGenerator.makeGrid(numOfCellsX * 2, numOfCellsZ * 2);
+        carveWalls(sectionOfMaze);
+    }
+
+    private void carveWalls(MazeTile[][] sectionOfMaze){
+        //Carve out odd blocks
+        for (int x = 0; x < 8; x++){
+            for (int z = 0; z < 8; z++) {
+                int blockX = 2 * x + 1;
+                int blockZ = 2 * z + 1;
+                if (!sectionOfMaze[x][z].hasWall(Direction.North)){
+                    buildingGenerator.clearPillar(new Vector(blockX , 101, blockZ - 1), 3);
+                }
+                if (!sectionOfMaze[x][z].hasWall(Direction.West)){
+                    buildingGenerator.clearPillar(new Vector(blockX -1, 101, blockZ), 3);
                 }
             }
         }
     }
-
     private void updateNumberOfCells(MazeTile[][] sectionOfMaze){
         numOfCellsX = sectionOfMaze[0].length;
         numOfCellsZ = sectionOfMaze[1].length;
     }
     private void makeMazeWalls(Chunk chunk, MazeTile[][] sectionOfMaze){
-
             int mazeWallX = xLength + mazeOriginX;
             int mazeWallZ = zLength + mazeOriginZ;
 

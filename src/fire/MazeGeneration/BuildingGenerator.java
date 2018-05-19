@@ -1,4 +1,4 @@
-package fire.MazeGeneration.MazeAlgorthim;
+package fire.MazeGeneration;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -16,6 +16,10 @@ public class BuildingGenerator {
     public Material wallMaterial;
     public Material floorMaterial;
     Chunk chunk;
+
+    public Vector buildingHeightAsVector(){
+        return new Vector(0, buildingElevation, 0);
+    }
 
     public BuildingGenerator(int buildingElevation, int wallHeight, Material wallMaterial, Material floorMaterial){
         this.wallMaterial = wallMaterial;
@@ -68,6 +72,10 @@ public class BuildingGenerator {
             chunkBlockFromVector(chunk, position).setType(material);
             position.add(upwardsVector);
         }
+    }
+
+    public void setBlockType(Vector vector, Material blockType){
+        chunkBlockFromVector(chunk, vector).setType(blockType);
     }
     public Block chunkBlockFromVector(Chunk chunk, Vector pos){
         return chunk.getBlock(pos.getBlockX(), pos.getBlockY(), pos.getBlockZ());

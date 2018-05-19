@@ -1,7 +1,7 @@
 package fire.MazeGeneration;
 
 
-import org.bukkit.Bukkit;
+import fire.MazeGeneration.MazePopulators.MazeStructurePopulator;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldInitEvent;
