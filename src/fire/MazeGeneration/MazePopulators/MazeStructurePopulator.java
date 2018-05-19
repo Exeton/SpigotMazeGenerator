@@ -62,7 +62,7 @@ public class MazeStructurePopulator extends BlockPopulator {
         updateNumberOfCells(sectionOfMaze);
 
         //Todo refactor into a new method (When adding support for maze tile lengths that aren't a multiple of 8)
-        if (sectionOfMaze.length == 0){
+        if (numOfCellsX == 0){
             makeMazeWalls(chunk, sectionOfMaze);
             return;
         }
@@ -70,6 +70,8 @@ public class MazeStructurePopulator extends BlockPopulator {
         buildingGenerator.setChunk(chunk);
         buildingGenerator.makeChunkFloor(numOfCellsX *2, numOfCellsZ * 2);
         buildingGenerator.makeGrid(numOfCellsX * 2, numOfCellsZ * 2);
+
+        //Todo fix wall carving
         carveWalls(sectionOfMaze);
     }
 
@@ -89,6 +91,11 @@ public class MazeStructurePopulator extends BlockPopulator {
         }
     }
     private void updateNumberOfCells(MazeTile[][] sectionOfMaze){
+        if (sectionOfMaze.length == 0){
+            numOfCellsX = 0;
+            numOfCellsZ = 0;
+            return;
+        }
         numOfCellsX = sectionOfMaze[0].length;
         numOfCellsZ = sectionOfMaze[1].length;
     }
