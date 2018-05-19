@@ -34,8 +34,8 @@ public class BuildingGenerator {
         Vector position = new Vector(startX, buildingElevation + 1, startZ);
         Vector directionVector = direction.getDirectionVector();
         for (int i = 0; i < wallLength; i++){
-            makePillar(position, wallHeight);
-            position.add(directionVector);
+            makePillar(position, wallHeight, wallMaterial);
+            position = position.add(directionVector);
         }
     }
     public void makeChunkFloor(int lengthX, int lengthZ){

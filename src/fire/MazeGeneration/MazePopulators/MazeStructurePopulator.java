@@ -63,15 +63,14 @@ public class MazeStructurePopulator extends BlockPopulator {
 
         //Todo refactor into a new method (When adding support for maze tile lengths that aren't a multiple of 8)
         if (numOfCellsX == 0){
-            makeMazeWalls(chunk, sectionOfMaze);
+            Bukkit.getLogger().info("Making maze border");
+            makeMazeWalls(chunk);
             return;
         }
 
         buildingGenerator.setChunk(chunk);
         buildingGenerator.makeChunkFloor(numOfCellsX *2, numOfCellsZ * 2);
         buildingGenerator.makeGrid(numOfCellsX * 2, numOfCellsZ * 2);
-
-        //Todo fix wall carving
         carveWalls(sectionOfMaze);
     }
 
@@ -99,18 +98,11 @@ public class MazeStructurePopulator extends BlockPopulator {
         numOfCellsX = sectionOfMaze[0].length;
         numOfCellsZ = sectionOfMaze[1].length;
     }
-    private void makeMazeWalls(Chunk chunk, MazeTile[][] sectionOfMaze){
-            int mazeWallX = xLength + mazeOriginX;
-            int mazeWallZ = zLength + mazeOriginZ;
-
-            boolean wallEast;
-            boolean wallSouth;
-            //Check if the position of the wall would be less than the wall if the wall was moved over 1 chunk.
-            //This is only true for chunks with a maze wall, or chunks farther away from the origin than the current chunk
-            //(We already check that each chunk is in the maze)
-
-            wallEast =(16 * (chunk.getZ() + 1)  > mazeWallZ);
-            wallSouth = (16 * (chunk.getX() + 1)  > mazeWallX);
+    private void makeMazeWalls(Chunk chunk){
+            //Todo should work regardless of the chunk that's passed in
+            //Todo fix border generation in building generator class
+            boolean wallEast = shouldMakeWall(zLength + mazeOriginZ, chunk.getZ());
+            boolean wallSouth = shouldMakeWall(xLength + mazeOriginX, chunk.getX());;
 
             if (wallEast && wallSouth)//Corner chunk
                 buildingGenerator.makePillar(0, 0, 3);
@@ -119,6 +111,13 @@ public class MazeStructurePopulator extends BlockPopulator {
             else if (wallSouth)
                 buildingGenerator.makeWall(0,0,Direction.South, 16);
     }
+    private boolean shouldMakeWall(int endOfWallCoord, int chunkCoord){
+        //Check if the position of the wall would be less than the wall if the wall was moved over 1 chunk.
+        //This is only true for chunks with a maze wall, or chunks farther away from the origin than the current chunk
+        //(We already check that each chunk is in the maze)
+        return (16 * (chunkCoord + 1)  > endOfWallCoord);
+    }
+
     private static int blocksToCells(int blocks){
         return (blocks - 1) / 2;
     }
