@@ -1,6 +1,7 @@
 package fire.MazeGeneration.MazePopulators;
 
 import fire.MazeGeneration.BuildingGenerator;
+import fire.MazeGeneration.MazeSection;
 import org.bukkit.*;
 import org.bukkit.generator.BlockPopulator;
 
@@ -14,9 +15,9 @@ import java.util.Random;
 public class MazeStructurePopulator extends BlockPopulator {
 
     //Lengths must be 16n + 1, where n is a positive integer
-    static int xLength = 33;
-    static int zLength = 33;
-    MazeGenerator mazeGenerator = new MazeGenerator(blocksToCells(xLength), blocksToCells(zLength));
+    private int xLength = 33;
+    private int zLength = 33;
+    private MazeGenerator mazeGenerator = new MazeGenerator(blocksToCells(xLength), blocksToCells(zLength));
 
 
     private int mazeOriginX = 0;
@@ -25,7 +26,7 @@ public class MazeStructurePopulator extends BlockPopulator {
     private int numOfCellsX;
     private int numOfCellsZ;
     Random r = new Random();
-    public BuildingGenerator buildingGenerator = new BuildingGenerator(100, 3, Material.WOOD, Material.STONE);;
+    public BuildingGenerator buildingGenerator = new BuildingGenerator(100, 3, Material.WOOD, Material.STONE);
 
     public MazeStructurePopulator()
     {
@@ -74,15 +75,15 @@ public class MazeStructurePopulator extends BlockPopulator {
 
     private void carveWalls(MazeTile[][] sectionOfMaze){
         //Carve out odd blocks
-        for (int x = 0; x < 8; x++){
-            for (int z = 0; z < 8; z++) {
-                int blockX = 2 * x + 1;
-                int blockZ = 2 * z + 1;
-                if (!sectionOfMaze[x][z].hasWall(Direction.North)){
-                    buildingGenerator.clearPillar(new Vector(blockX , 101, blockZ - 1), 3);
+        for (int mazeX = 0; mazeX < 8; mazeX++){
+            for (int mazeZ = 0; mazeZ < 8; mazeZ++) {
+                int worldX = MazeSection.toWorldCoord(mazeX);
+                int worldZ =  MazeSection.toWorldCoord(mazeZ);
+                if (!sectionOfMaze[mazeX][mazeZ].hasWall(Direction.North)){
+                    buildingGenerator.clearPillar(new Vector(worldX , 101, worldZ - 1), 3);
                 }
-                if (!sectionOfMaze[x][z].hasWall(Direction.West)){
-                    buildingGenerator.clearPillar(new Vector(blockX -1, 101, blockZ), 3);
+                if (!sectionOfMaze[mazeX][mazeZ].hasWall(Direction.West)){
+                    buildingGenerator.clearPillar(new Vector(worldX -1, 101, worldZ), 3);
                 }
             }
         }
