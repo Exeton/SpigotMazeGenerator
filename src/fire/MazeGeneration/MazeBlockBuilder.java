@@ -34,6 +34,17 @@ public class MazeBlockBuilder {
                     buildingGenerator.makePillar(new Vector(tileCenterX - 1, 101, tileCenterZ), 3);
                 }
             }
+            //Todo Cleaner code!!
+            buildingGenerator.makePillar(new Vector(2 * x, 101,  2 * maze[1].length), 3);
+            buildingGenerator.makePillar(new Vector(2 * x + 1, 101,  2 * maze[1].length), 3);
+            buildingGenerator.setBlockType(new Vector(2 * x, 100, 2 * maze[1].length - 1), Material.STONE);
+            buildingGenerator.setBlockType(new Vector(2 * x + 1, 100, 2 * maze[1].length - 1), Material.STONE);
+        }
+
+
+        for (int i = 0; i < 2 * maze[0].length + 1; i++){
+            buildingGenerator.makePillar(new Vector(2 * maze[0].length, 101,  i), 3);
+            buildingGenerator.setBlockType(new Vector(2 * maze[0].length - 1, 100, i),  Material.STONE);
         }
     }
     private static int blocksToCells(int blocks){
