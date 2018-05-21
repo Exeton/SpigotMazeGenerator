@@ -1,12 +1,9 @@
 package fire.MazeGeneration;
 
-import fire.MazeGeneration.blockPlacing.ChunkBlockPlacer;
 import fire.MazeGeneration.blockPlacing.IBlockPlacer;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
-import org.bukkit.TreeSpecies;
-import org.bukkit.block.Block;
 import org.bukkit.util.Vector;
 
 
@@ -18,7 +15,6 @@ public class BuildingGenerator {
     public Material wallMaterial;
     public Material floorMaterial;
     IBlockPlacer blockPlacer;
-    Chunk chunk;
 
     public Vector buildingHeightAsVector(){
         return new Vector(0, buildingElevation, 0);
@@ -31,13 +27,6 @@ public class BuildingGenerator {
         this.buildingElevation = buildingElevation;
         this.wallHeight = wallHeight;
     }
-    public void setChunk(Chunk chunk){
-        this.chunk = chunk;
-        if (blockPlacer instanceof ChunkBlockPlacer){
-            ChunkBlockPlacer chunkBlockPlacer = (ChunkBlockPlacer)blockPlacer;
-            chunkBlockPlacer.updateCurrentChunk(chunk);
-        }
-    }
     public void makeWall(int startX, int startZ, Direction direction, int wallLength, Material material){
         Vector position = new Vector(startX, buildingElevation + 1, startZ);
         Vector directionVector = direction.getDirectionVector();
@@ -49,10 +38,10 @@ public class BuildingGenerator {
     public void makeWall(int startX, int startZ, Direction direction, int wallLength){
         makeWall(startX, startZ, direction, wallLength, wallMaterial);
     }
-    public void makeChunkFloor(int lengthX, int lengthZ){
+    public void makeFloor(int startX, int startZ, int lengthX, int lengthZ){
         for (int x = 0; x  < lengthX; x++){
             for (int z = 0; z <lengthZ; z++){
-                chunk.getBlock(x, buildingElevation, z).setType(floorMaterial);
+                setBlockType(new Vector(startX + x, buildingElevation, startZ + z), floorMaterial);
             }
         }
     }

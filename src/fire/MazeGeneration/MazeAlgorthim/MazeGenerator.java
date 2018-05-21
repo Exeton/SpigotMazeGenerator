@@ -17,7 +17,7 @@ public class MazeGenerator
     Point currentLocation;
     MazeTile[][] tiles;
 
-    public MazeGenerator(int xLength, int yLength)//Outermost tiles reserved for maze border.
+    public MazeGenerator(int xLength, int yLength)
     {
         tiles = new MazeTile[xLength][yLength];
     }
