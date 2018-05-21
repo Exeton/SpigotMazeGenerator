@@ -1,7 +1,7 @@
 package fire.MazeGeneration.MazePopulators;
 
 import fire.MazeGeneration.BuildingGenerator;
-import fire.MazeGeneration.MazeSection;
+import fire.MazeGeneration.MazeInfo;
 import org.bukkit.*;
 import org.bukkit.generator.BlockPopulator;
 
@@ -20,42 +20,30 @@ public class MazeStructurePopulator extends BlockPopulator {
     private MazeGenerator mazeGenerator = new MazeGenerator(blocksToCells(xLength), blocksToCells(zLength));
 
 
-    private int mazeOriginX = 0;
-    private int mazeOriginZ = 0;
+    private MazeInfo mazeInfo = new MazeInfo(xLength, zLength);
 
     private int numOfCellsX;
     private int numOfCellsZ;
-    Random r = new Random();
-    public BuildingGenerator buildingGenerator = new BuildingGenerator(100, 3, Material.WOOD, Material.STONE);
+    public BuildingGenerator buildingGenerator;
 
-    public MazeStructurePopulator()
+    public MazeStructurePopulator(BuildingGenerator buildingGenerator)
     {
+        this.buildingGenerator =buildingGenerator;
+
         Bukkit.getLogger().info("Generating maze");
         mazeGenerator.generateMaze();
         Bukkit.getLogger().info("Done!");
     }
 
-    private boolean chunckHasMazeStructure(Chunk chunk){
-        boolean insideXBounds = axisHasMazeStructure(chunk.getX(), xLength , mazeOriginX);
-        boolean insideZBounds = axisHasMazeStructure(chunk.getZ(), zLength, mazeOriginZ);
-
-        return insideXBounds && insideZBounds;
-    }
-    private boolean axisHasMazeStructure(int chunkAxisValue, int mazeLengthOnAxis, int mazeOriginOnAxis){
-        int chunkOrigin = chunkAxisValue * 16;
-        if (mazeOriginOnAxis <= chunkOrigin && chunkOrigin <= mazeOriginOnAxis + mazeLengthOnAxis){
-            return true;
-        }
-        return false;
-    }
-
     @Override
     public void populate(World world, Random random, Chunk chunk) {
+        // Ensure that buildingGenerator#setChunk(chunk) is called
         generateMazeSection(world, random, chunk);
     }
 
     public void generateMazeSection(World world, Random random, Chunk chunk){
-        if (!chunckHasMazeStructure(chunk)){
+        buildingGenerator.setChunk(chunk);//Do not move. This must be called at the start of every populate
+        if (!mazeInfo.hsMazeStructure(chunk)){
             return;
         }
         MazeTile[][] sectionOfMaze = mazeGenerator.getMazeTiles(8 * chunk.getX(),8 * chunk.getZ() , 8,8);
@@ -63,12 +51,10 @@ public class MazeStructurePopulator extends BlockPopulator {
 
         //Todo refactor into a new method (When adding support for maze tile lengths that aren't a multiple of 8)
         if (numOfCellsX == 0){
-            Bukkit.getLogger().info("Making maze border");
+            Bukkit.getLogger().info("Making maze border {" + chunk.getX() + "," + chunk.getZ()+ "}");
             makeMazeWalls(chunk);
             return;
         }
-
-        buildingGenerator.setChunk(chunk);
         buildingGenerator.makeChunkFloor(numOfCellsX *2, numOfCellsZ * 2);
         buildingGenerator.makeGrid(numOfCellsX * 2, numOfCellsZ * 2);
         carveWalls(sectionOfMaze);
@@ -76,10 +62,10 @@ public class MazeStructurePopulator extends BlockPopulator {
 
     private void carveWalls(MazeTile[][] sectionOfMaze){
         //Carve out odd blocks
-        for (int mazeX = 0; mazeX < 8; mazeX++){
-            for (int mazeZ = 0; mazeZ < 8; mazeZ++) {
-                int worldX = MazeSection.toWorldCoord(mazeX);
-                int worldZ =  MazeSection.toWorldCoord(mazeZ);
+        for (int mazeX = 0; mazeX < numOfCellsX; mazeX++){
+            for (int mazeZ = 0; mazeZ < numOfCellsZ; mazeZ++) {
+                int worldX = 2 * mazeX + 1;
+                int worldZ =  2 * mazeZ + 1;
                 if (!sectionOfMaze[mazeX][mazeZ].hasWall(Direction.North)){
                     buildingGenerator.clearPillar(new Vector(worldX , 101, worldZ - 1), 3);
                 }
@@ -99,10 +85,8 @@ public class MazeStructurePopulator extends BlockPopulator {
         numOfCellsZ = sectionOfMaze[1].length;
     }
     private void makeMazeWalls(Chunk chunk){
-            //Todo should work regardless of the chunk that's passed in
-            //Todo fix border generation in building generator class
-            boolean wallEast = shouldMakeWall(zLength + mazeOriginZ, chunk.getZ());
-            boolean wallSouth = shouldMakeWall(xLength + mazeOriginX, chunk.getX());;
+            boolean wallEast = shouldMakeWall(zLength + mazeInfo.worldCoordZ, chunk.getZ());
+            boolean wallSouth = shouldMakeWall(xLength + mazeInfo.worldCoordX, chunk.getX());;
 
             if (wallEast && wallSouth)//Corner chunk
                 buildingGenerator.makePillar(0, 0, 3);
@@ -112,10 +96,9 @@ public class MazeStructurePopulator extends BlockPopulator {
                 buildingGenerator.makeWall(0,0,Direction.South, 16);
     }
     private boolean shouldMakeWall(int endOfWallCoord, int chunkCoord){
-        //Check if the position of the wall would be less than the wall if the wall was moved over 1 chunk.
-        //This is only true for chunks with a maze wall, or chunks farther away from the origin than the current chunk
-        //(We already check that each chunk is in the maze)
-        return (16 * (chunkCoord + 1)  > endOfWallCoord);
+        int chunkStart = 16 * chunkCoord;
+        int chunkEnd = chunkStart + 15;
+        return (chunkStart <= endOfWallCoord && endOfWallCoord <= chunkEnd);
     }
 
     private static int blocksToCells(int blocks){

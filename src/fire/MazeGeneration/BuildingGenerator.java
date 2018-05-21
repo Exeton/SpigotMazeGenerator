@@ -30,13 +30,16 @@ public class BuildingGenerator {
     public void setChunk(Chunk chunk){
         this.chunk = chunk;
     }
-    public void makeWall(int startX, int startZ, Direction direction, int wallLength){
+    public void makeWall(int startX, int startZ, Direction direction, int wallLength, Material material){
         Vector position = new Vector(startX, buildingElevation + 1, startZ);
         Vector directionVector = direction.getDirectionVector();
         for (int i = 0; i < wallLength; i++){
-            makePillar(position, wallHeight, wallMaterial);
+            makePillar(position, wallHeight, material);
             position = position.add(directionVector);
         }
+    }
+    public void makeWall(int startX, int startZ, Direction direction, int wallLength){
+        makeWall(startX, startZ, direction, wallLength, wallMaterial);
     }
     public void makeChunkFloor(int lengthX, int lengthZ){
         for (int x = 0; x  < lengthX; x++){

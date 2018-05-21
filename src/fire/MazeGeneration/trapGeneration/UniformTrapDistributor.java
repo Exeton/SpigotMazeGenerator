@@ -1,5 +1,7 @@
 package fire.MazeGeneration.trapGeneration;
 
+import org.bukkit.Chunk;
+
 import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,14 +28,24 @@ public class UniformTrapDistributor implements  ITrapDistributor{
         return trapLocations;
     }
 
-    public boolean hasTrap(int x, int z)
+    public List<Point> trapsPositionsInChunk(Chunk chunk)
     {
-        for (Point trapLocation : trapLocations)
-        {
-            if (trapLocation.x == x && trapLocation.y == z)
-                return true;
+        List<Point> trapPositionsInChunk = new LinkedList<Point>();
+        for (Point trapLocation : trapLocations){
+            if (trapInChunkDimension(chunk.getX(), trapLocation.x) &&trapInChunkDimension(chunk.getZ(), trapLocation.y)){
+                int newX = trapLocation.x - 8 * chunk.getX();
+                int newZ = trapLocation.y - 8 * chunk.getZ();
+                trapPositionsInChunk.add(new Point(newX, newZ));
+            }
         }
-        return false;
+        return trapPositionsInChunk;
+    }
+    private boolean trapInChunkDimension(int chunkCoord, int trapCoordInMaze){
+        int trapCoordInWorld = 2 * trapCoordInMaze + 1;
+
+        int chunkStart = 16 * chunkCoord;
+        int chunkEnd = 16 * chunkStart + 15;
+        return chunkStart < trapCoordInWorld && trapCoordInWorld < chunkEnd;
     }
 
     //Todo : prevent stack overflow exceptions.

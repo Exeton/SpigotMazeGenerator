@@ -17,7 +17,7 @@ public class MazeGenerator
     Point currentLocation;
     MazeTile[][] tiles;
 
-    public MazeGenerator(int xLength, int yLength)
+    public MazeGenerator(int xLength, int yLength)//Outermost tiles reserved for maze border.
     {
         tiles = new MazeTile[xLength][yLength];
     }
@@ -32,8 +32,23 @@ public class MazeGenerator
         int startX = random.nextInt(tiles[0].length);
         int startY = random.nextInt(tiles[1].length);
         carvePassages(startX, startY);
+
+        addMazeBorder(tiles);
         return tiles;
     }
+
+    //todo Clean up
+    private void addMazeBorder(MazeTile[][] maze){
+
+        for (int x = 0; x < maze[0].length; x++){
+            maze[x][maze[1].length - 1] = new MazeTile();
+        }
+        for (int y = 0; y < maze[1].length; y++){
+            MazeTile newTile = new MazeTile();
+            maze[maze[0].length - 1][y] = newTile;
+        }
+    }
+
     private void carvePassages(int startX, int startY)
     {
         tiles[startX][startY].visited = true;
@@ -82,7 +97,7 @@ public class MazeGenerator
     }
     private boolean inMazeDimension(int value, int dimension)
     {
-        return 0 <= value && value < tiles[dimension].length;
+        return 0 <= value && value < tiles[dimension].length - 1;//Leave room for maze border
     }
 
     public MazeTile[][] getMazeTiles(int startX, int startZ, int tilesX, int tilesZ)
