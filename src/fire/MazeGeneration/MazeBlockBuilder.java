@@ -6,10 +6,9 @@ import fire.MazeGeneration.MazeAlgorthim.MazeTile;
 import org.bukkit.Material;
 import org.bukkit.util.Vector;
 
-//Todo Maze is getting cut off on four sides. Error in structure mapper?
 public class MazeBlockBuilder {
     private int xLength = 33;
-    private int zLength = 33;
+    private int zLength = 23;
     private MazeGenerator mazeGenerator = new MazeGenerator(blocksToCells(xLength), blocksToCells(zLength));
     private BuildingGenerator buildingGenerator;
 

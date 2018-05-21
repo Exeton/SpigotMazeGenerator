@@ -22,7 +22,7 @@ public class StructureMapper {
     public void populateChunk(Chunk chunk){
         //Todo Don't search chunks that deffos don't have structure.
         Vector chunkLocation = new Vector(16 * chunk.getX(), 0, 16 * chunk.getZ());
-        Vector distanceFromStructureOrigin = origin.clone().subtract(chunkLocation);//Does this modify the value if you don't clone?
+        Vector distanceFromStructureOrigin = chunkLocation.clone().subtract(origin);//Does this modify the value if you don't clone?
         for (int x = 0; x < 16; x++){
             for (int y = 0; y < 255; y++){
                 for (int z = 0; z < 16; z++){
