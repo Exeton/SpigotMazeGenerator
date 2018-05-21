@@ -1,5 +1,7 @@
 package fire.MazeGeneration;
 
+import fire.MazeGeneration.blockPlacing.ChunkBlockPlacer;
+import fire.MazeGeneration.blockPlacing.IBlockPlacer;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
@@ -15,13 +17,15 @@ public class BuildingGenerator {
     int wallHeight;
     public Material wallMaterial;
     public Material floorMaterial;
+    IBlockPlacer blockPlacer;
     Chunk chunk;
 
     public Vector buildingHeightAsVector(){
         return new Vector(0, buildingElevation, 0);
     }
 
-    public BuildingGenerator(int buildingElevation, int wallHeight, Material wallMaterial, Material floorMaterial){
+    public BuildingGenerator(IBlockPlacer blockPlacer, int buildingElevation, int wallHeight, Material wallMaterial, Material floorMaterial){
+        this.blockPlacer = blockPlacer;
         this.wallMaterial = wallMaterial;
         this.floorMaterial = floorMaterial;
         this.buildingElevation = buildingElevation;
@@ -29,6 +33,10 @@ public class BuildingGenerator {
     }
     public void setChunk(Chunk chunk){
         this.chunk = chunk;
+        if (blockPlacer instanceof ChunkBlockPlacer){
+            ChunkBlockPlacer chunkBlockPlacer = (ChunkBlockPlacer)blockPlacer;
+            chunkBlockPlacer.updateCurrentChunk(chunk);
+        }
     }
     public void makeWall(int startX, int startZ, Direction direction, int wallLength, Material material){
         Vector position = new Vector(startX, buildingElevation + 1, startZ);
@@ -72,19 +80,13 @@ public class BuildingGenerator {
         Vector position = bottomBlock.clone();//We don't want to modify the inputted vector
         Vector upwardsVector = new Vector(0,1,0);
         for (int i = 0; i < height; i++){
-            chunkBlockFromVector(chunk, position).setType(material);
+            blockPlacer.setBlock(position, material);
             position.add(upwardsVector);
         }
     }
-
-    public void setBlockType(Vector vector, Material blockType){
-        chunkBlockFromVector(chunk, vector).setType(blockType);
+    public void setBlockType(Vector location, Material blockType){
+        blockPlacer.setBlock(location, blockType);
     }
-    public Block chunkBlockFromVector(Chunk chunk, Vector pos){
-        return chunk.getBlock(pos.getBlockX(), pos.getBlockY(), pos.getBlockZ());
-    }
-
-
     private static boolean isEven(int x){
         return ((x & 1) == 0);
     }
