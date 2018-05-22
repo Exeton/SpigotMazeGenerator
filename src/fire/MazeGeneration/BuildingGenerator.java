@@ -27,6 +27,16 @@ public class BuildingGenerator {
         this.buildingElevation = buildingElevation;
         this.wallHeight = wallHeight;
     }
+
+    public void clearRoom(Vector startPos, Vector roomSize){
+        for (int x = 0; x < roomSize.getBlockX(); x++)
+            for (int y = 0; y < roomSize.getBlockY(); y++)
+                for (int z = 0; z < roomSize.getBlockZ(); z++){
+                    Vector newPos = startPos.clone().add(new Vector(x,y,z));
+                    setBlockType(newPos, Material.AIR);
+                }
+    }
+
     public void makeWall(int startX, int startZ, Direction direction, int wallLength, Material material){
         Vector position = new Vector(startX, buildingElevation + 1, startZ);
         Vector directionVector = direction.getDirectionVector();
@@ -42,16 +52,6 @@ public class BuildingGenerator {
         for (int x = 0; x  < lengthX; x++){
             for (int z = 0; z <lengthZ; z++){
                 setBlockType(new Vector(startX + x, buildingElevation, startZ + z), floorMaterial);
-            }
-        }
-    }
-    public void makeGrid(int xLength, int zLength){
-        //Make walls
-        for (int x = 0; x < xLength; x++) {
-            for (int z = 0; z < zLength; z++) {
-                if (isEven(x) || isEven(z)) {
-                    makePillar(new Vector(x, buildingElevation + 1, z), wallHeight);
-                }
             }
         }
     }
@@ -76,7 +76,4 @@ public class BuildingGenerator {
     public void setBlockType(Vector location, Material blockType){
         blockPlacer.setBlock(location, blockType);
     }
-    private static boolean isEven(int x){
-        return ((x & 1) == 0);
-    }
-}
+   }
