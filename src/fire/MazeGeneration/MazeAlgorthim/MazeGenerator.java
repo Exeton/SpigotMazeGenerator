@@ -19,6 +19,7 @@ public class MazeGenerator
 
     public MazeGenerator(int xLength, int yLength)
     {
+        Bukkit.getLogger().info("MazeGenerator x , y: " + xLength + " " + yLength);
         tiles = new MazeTile[xLength][yLength];
     }
 
@@ -86,24 +87,7 @@ public class MazeGenerator
         return 0 <= value && value < tiles[dimension].length;
     }
 
-    public MazeTile[][] getMazeTiles(int startX, int startZ, int tilesX, int tilesZ)
-    {
-        if (!inMaze(new Point(startX, startZ)))
-            return  new MazeTile[0][0];
-        if (!inMazeDimension(startX + tilesX, 0)){
-            tilesX =  tiles[0].length - startX;
-        }
-        if (!inMazeDimension(startZ + tilesZ, 0)) {
-            tilesZ = tiles[0].length - startZ;
-        }
-
-
-        MazeTile[][] section = new MazeTile[tilesX][tilesZ];
-        for (int x = 0; x < tilesX; x++){
-            for (int z = 0; z <tilesZ; z++){
-                section[x][z] = tiles[startX + x][startZ + z];
-            }
-        }
-        return section;
+    public MazeTile[][] getMaze(){
+        return tiles;
     }
 }

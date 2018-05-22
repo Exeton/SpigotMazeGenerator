@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface ITrapDistributor {
     List<Point> distributeTraps();
-    List<Point> trapsPositionsInChunk(Chunk chunk);//Returns traps in the chunk, in maze coords relative to the chunk
 }

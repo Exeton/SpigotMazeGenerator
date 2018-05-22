@@ -1,5 +1,6 @@
 package fire.MazeGeneration.trapGeneration;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 
 import java.awt.*;
@@ -7,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-public class UniformTrapDistributor implements  ITrapDistributor{
+public class UniformTrapDistributor implements ITrapDistributor{
     int sizeX;
     int sizeZ;
     int uniformityMultiplier = 1;
@@ -16,6 +17,7 @@ public class UniformTrapDistributor implements  ITrapDistributor{
     public UniformTrapDistributor(int SizeX, int SizeZ){
         sizeX = SizeX;
         sizeZ = SizeZ;
+        Bukkit.getLogger().info("x: " + sizeX + " z:" + sizeZ);
     }
 
     @Override
@@ -26,26 +28,6 @@ public class UniformTrapDistributor implements  ITrapDistributor{
             addTrap();
         }
         return trapLocations;
-    }
-
-    public List<Point> trapsPositionsInChunk(Chunk chunk)
-    {
-        List<Point> trapPositionsInChunk = new LinkedList<Point>();
-        for (Point trapLocation : trapLocations){
-            if (trapInChunkDimension(chunk.getX(), trapLocation.x) &&trapInChunkDimension(chunk.getZ(), trapLocation.y)){
-                int newX = trapLocation.x - 8 * chunk.getX();
-                int newZ = trapLocation.y - 8 * chunk.getZ();
-                trapPositionsInChunk.add(new Point(newX, newZ));
-            }
-        }
-        return trapPositionsInChunk;
-    }
-    private boolean trapInChunkDimension(int chunkCoord, int trapCoordInMaze){
-        int trapCoordInWorld = 2 * trapCoordInMaze + 1;
-
-        int chunkStart = 16 * chunkCoord;
-        int chunkEnd = 16 * chunkStart + 15;
-        return chunkStart < trapCoordInWorld && trapCoordInWorld < chunkEnd;
     }
 
     //Todo : prevent stack overflow exceptions.
@@ -60,13 +42,13 @@ public class UniformTrapDistributor implements  ITrapDistributor{
         int pOfSwitchingLocation = uniformityMultiplier * sizeX * sizeZ / distanceSqFromNearestPoint;
 
         if (r.nextInt(101) < pOfSwitchingLocation)
-            addTrap();//Switch locations
+            addTrap();//Recalling this function means the trap will be placed in a diff location instead of the one selected by the function
         else
             trapLocations.add(potentialLocation);
     }
     public Point randomLocation(int maxX, int maxY)
     {
-        return new Point(r.nextInt(sizeX + 1), r.nextInt(sizeZ + 1));
+        return new Point(r.nextInt(maxX), r.nextInt(maxY));
     }
     public int distanceSqFromNearestTrap(Point point)
     {
