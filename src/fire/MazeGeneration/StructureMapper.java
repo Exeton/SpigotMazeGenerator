@@ -1,6 +1,5 @@
 package fire.MazeGeneration;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -23,20 +22,22 @@ public class StructureMapper {
         //Todo Don't search chunks that deffos don't have structure.
         Vector chunkLocation = new Vector(16 * chunk.getX(), 0, 16 * chunk.getZ());
         Vector distanceFromStructureOrigin = chunkLocation.clone().subtract(origin);//Does this modify the value if you don't clone?
-        for (int x = 0; x < 16; x++){
-            for (int y = 0; y < 255; y++){
+        for (int x = 0; x < 16; x++)
+            for (int y = 0; y < 255; y++)
                 for (int z = 0; z < 16; z++){
                     Vector locInStructureArray = distanceFromStructureOrigin.clone().add(new Vector(x,y,z));
-                    if (!insideStructure(locInStructureArray)) {
-                        continue;
-                    }
-                    Material blockMaterial = materialFromStructureArray(locInStructureArray);
-                    if (blockMaterial != null)
-                        chunkBlockFromVector(chunk, new Vector(x,y,z)).setType(blockMaterial);
+                    writeChunkBlockToWorld(chunk, locInStructureArray, new Vector(x,y,z));
                 }
-            }
-        }
     }
+    public void writeChunkBlockToWorld(Chunk chunk, Vector locInStructureArray, Vector locInChunk){
+        if (!insideStructure(locInStructureArray)) {
+            return;
+        }
+        Material blockMaterial = materialFromStructureArray(locInStructureArray);
+        if (blockMaterial != null)
+            chunkBlockFromVector(chunk, locInChunk).setType(blockMaterial);
+    }
+
     private Material materialFromStructureArray(Vector loc){
         return structureMap[loc.getBlockX()][loc.getBlockY()][loc.getBlockZ()];
     }
