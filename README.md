@@ -5,3 +5,4 @@ You can change maze sizes in MazeStructurePopulator.java. All mazes can be found
 
 ![alt text](https://github.com/Exeton/SpigotMazeGenerator/blob/master/Sample%20Maze.png?raw=true)
 ![alt text](https://github.com/Exeton/SpigotMazeGenerator/blob/master/2018-05-21_01.01.42.png?raw=true)
+![alt text](https://github.com/Exeton/SpigotMazeGenerator/blob/master/Pics/LavaTrap.png?raw=true)
