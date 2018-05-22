@@ -24,7 +24,7 @@ public class MazeBlockBuilder {
         makeInteriorMazeWalls(maze);
     }
     private void clearMazeArea(int mazeTilesX, int mazeTilesZ){
-        Vector mazeRoomSize = new Vector(mazeTilesToBlocks(mazeTilesX), buildingGenerator.buildingElevation + 1, mazeTilesToBlocks(mazeTilesZ));
+        Vector mazeRoomSize = new Vector(mazeTilesToBlocks(mazeTilesX), buildingGenerator.wallHeight + 1, mazeTilesToBlocks(mazeTilesZ));
         buildingGenerator.clearRoom(new Vector(0,buildingGenerator.buildingElevation,0), mazeRoomSize);
     }
     private void makeFloor(int mazeTilesX, int mazeTilesZ){
