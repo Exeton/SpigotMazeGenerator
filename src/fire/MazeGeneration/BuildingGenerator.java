@@ -1,8 +1,6 @@
 package fire.MazeGeneration;
 
 import fire.MazeGeneration.blockPlacing.IBlockPlacer;
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.util.Vector;
 
@@ -10,11 +8,11 @@ import org.bukkit.util.Vector;
 import static fire.MazeGeneration.MazeAlgorthim.DirectionUtil.Direction;
 
 public class BuildingGenerator {
-    int buildingElevation;
-    int wallHeight;
+    public int buildingElevation;
+    public int wallHeight;
     public Material wallMaterial;
     public Material floorMaterial;
-    IBlockPlacer blockPlacer;
+    private IBlockPlacer blockPlacer;
 
     public Vector buildingHeightAsVector(){
         return new Vector(0, buildingElevation, 0);
@@ -28,13 +26,16 @@ public class BuildingGenerator {
         this.wallHeight = wallHeight;
     }
 
-    public void clearRoom(Vector startPos, Vector roomSize){
+    public void fillRoom(Vector startPos, Vector roomSize, Material m){
         for (int x = 0; x < roomSize.getBlockX(); x++)
             for (int y = 0; y < roomSize.getBlockY(); y++)
                 for (int z = 0; z < roomSize.getBlockZ(); z++){
                     Vector newPos = startPos.clone().add(new Vector(x,y,z));
-                    setBlockType(newPos, Material.AIR);
+                    setBlockType(newPos, m);
                 }
+    }
+    public void clearRoom(Vector startPos, Vector roomSize){
+        fillRoom(startPos, roomSize, Material.AIR);
     }
 
     public void makeWall(int startX, int startZ, Direction direction, int wallLength, Material material){
