@@ -6,21 +6,20 @@ import org.bukkit.Material;
 import org.bukkit.util.Vector;
 
 public class TnTTrapGenerator implements  ITrapGenerator{
-    BuildingGenerator buildingGenerator;
+    private BuildingGenerator buildingGenerator;
     public TnTTrapGenerator(BuildingGenerator buildingGenerator){
         this.buildingGenerator = buildingGenerator;
     }
 
     @Override
     public void generateTrap(int x, int z, MazeTile tile) {
-        Vector presurePlateLocation = new Vector(x, 1, z).add(buildingGenerator.buildingHeightAsVector());
-        Vector tntLocation = new Vector(x, -1, z).add(buildingGenerator.buildingHeightAsVector());
-        Vector tntLocation2 = new Vector(x, -2, z).add(buildingGenerator.buildingHeightAsVector());
-        Vector blockUnderTnt = new Vector(x, -3, z).add(buildingGenerator.buildingHeightAsVector());
+        Vector pressurePlateLocation = new Vector(x, 1, z).add(buildingGenerator.buildingHeightAsVector());
+        buildingGenerator.setBlockType(pressurePlateLocation, Material.STONE_PLATE);
 
-        buildingGenerator.setBlockType(presurePlateLocation, Material.STONE_PLATE);
-        buildingGenerator.setBlockType(tntLocation, Material.TNT);
-        buildingGenerator.setBlockType(tntLocation2, Material.TNT);
-        buildingGenerator.setBlockType(blockUnderTnt, Material.STONE);
+        int clusterSize = 2;//Using sizes > 2 will cause a large chain reaction of tnt when activated
+
+        Vector startPos = new Vector(x - 1, -clusterSize, z - 1).add(buildingGenerator.buildingHeightAsVector());
+        Vector tntClusterSize = new Vector(clusterSize, clusterSize, clusterSize);
+        buildingGenerator.fillRoom(startPos,tntClusterSize , Material.TNT);
     }
 }
