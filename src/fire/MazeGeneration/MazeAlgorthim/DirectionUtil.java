@@ -53,25 +53,10 @@ public class DirectionUtil
     }
     public static Point move(Direction direction, int x, int y)
     {
-        Point result = new Point(x, y);
-        switch (direction)
-        {
-            case North:
-                result.y--;
-                break;
-            case South:
-                result.y++;
-                break;
-            case East:
-                result.x++;
-                break;
-            case West:
-                result.x--;
-                break;
-        }
-        return result;
+        Vector directionVector = direction.getDirectionVector();
+        return new Point(x + directionVector.getBlockX(), y + directionVector.getBlockZ());// The z value of the vector is the y value of the point.
     }
-    public static java.util.List<Direction> getCardnialDirections(){
+    public static List<Direction> getCardnialDirections(){
         List<Direction> directions = new ArrayList<>();
         directions.add(Direction.North);
         directions.add(Direction.South);
