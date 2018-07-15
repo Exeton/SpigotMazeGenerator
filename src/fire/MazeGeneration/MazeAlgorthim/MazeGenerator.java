@@ -70,7 +70,7 @@ public class MazeGenerator
                 continue;
 
             MazeTile tileInDirection = tiles[locationInDirection.x][locationInDirection.y];
-            if (tileInDirection.visited == true)
+            if (tileInDirection.visited)
                 continue;
 
             return direction;
