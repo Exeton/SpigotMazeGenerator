@@ -4,7 +4,7 @@ import static fire.MazeGeneration.MazeAlgorthim.DirectionUtil.Direction;
 
 public class MazeTile
 {
-    boolean[] walls = new boolean[4];//True if there is a wall
+    private boolean[] walls = new boolean[4];//True if there is a wall
     boolean visited;
     public Direction originatingDirection = Direction.None;
 
@@ -15,10 +15,9 @@ public class MazeTile
         visited = false;
     }
 
-    public void carveTile(Direction direction)
+    public void removeWall(Direction direction)
     {
         walls[direction.getValue()] = false;
-        visited = true;
     }
     public void addOriginatingDirection(Direction direction)
     {

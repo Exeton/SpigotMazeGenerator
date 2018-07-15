@@ -14,7 +14,7 @@ public class MazeBlockBuilder {
         this.mazeGenerator = mazeGenerator;
     }
     public void fillStructureMap(){
-        MazeTile[][] maze = mazeGenerator.generateMaze();
+        MazeTile[][] maze = mazeGenerator.nextMaze();
         int mazeTilesX = maze[0].length;
         int mazeTilesZ = maze[1].length;
 

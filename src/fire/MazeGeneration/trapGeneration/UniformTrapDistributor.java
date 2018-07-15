@@ -1,8 +1,5 @@
 package fire.MazeGeneration.trapGeneration;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-
 import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,13 +14,12 @@ public class UniformTrapDistributor implements ITrapDistributor{
     public UniformTrapDistributor(int SizeX, int SizeZ){
         sizeX = SizeX;
         sizeZ = SizeZ;
-        Bukkit.getLogger().info("x: " + sizeX + " z:" + sizeZ);
     }
 
     @Override
     public List<Point> distributeTraps() {
         trapLocations = new LinkedList<Point>();
-        for (int traps = 0; traps < 10; traps++)
+        for (int traps = 0; traps < 25; traps++)
         {
             addTrap();
         }
@@ -39,7 +35,7 @@ public class UniformTrapDistributor implements ITrapDistributor{
         if (distanceSqFromNearestPoint == 0)
             distanceSqFromNearestPoint = 1;
 
-        int pOfSwitchingLocation = uniformityMultiplier * sizeX * sizeZ / distanceSqFromNearestPoint;
+        int pOfSwitchingLocation = uniformityMultiplier * 8 * 32 / distanceSqFromNearestPoint;
 
         if (r.nextInt(101) < pOfSwitchingLocation)
             addTrap();//Recalling this function means the trap will be placed in a diff location instead of the one selected by the function

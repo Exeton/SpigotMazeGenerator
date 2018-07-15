@@ -19,7 +19,6 @@ public class LavaTrapGenerator implements  ITrapGenerator{
         Vector lavaLoc = new Vector(x, -1, z).add(buildingGenerator.buildingHeightAsVector());
         DirectionUtil.Direction direction = DirectionUtil.Direction.North;
 
-        //Translate floor pos and lava to starting position. (x and z parameters are the center of the block)
         if (!tile.hasWall(DirectionUtil.Direction.North))
             direction = DirectionUtil.Direction.South;
         else if (!tile.hasWall(DirectionUtil.Direction.West))

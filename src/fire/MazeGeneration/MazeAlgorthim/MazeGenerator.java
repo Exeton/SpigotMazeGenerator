@@ -1,7 +1,5 @@
 package fire.MazeGeneration.MazeAlgorthim;
 
-import org.bukkit.Bukkit;
-
 import java.awt.*;
 import java.util.Collections;
 import java.util.List;
@@ -13,17 +11,17 @@ import static fire.MazeGeneration.MazeAlgorthim.DirectionUtil.Direction;
  */
 public class MazeGenerator
 {
-    Random random = new Random();
+    Random random;
     Point currentLocation;
     MazeTile[][] tiles;
 
-    public MazeGenerator(int xLength, int yLength)
+    public MazeGenerator(int xLength, int yLength, Random Random)
     {
-        Bukkit.getLogger().info("MazeGenerator x , y: " + xLength + " " + yLength);
         tiles = new MazeTile[xLength][yLength];
+        random = Random;
     }
 
-    public MazeTile[][] generateMaze()
+    public MazeTile[][] nextMaze()
     {
         for (int i = 0; i < tiles[0].length; i++)
         {
@@ -32,32 +30,33 @@ public class MazeGenerator
         }
         int startX = random.nextInt(tiles[0].length);
         int startY = random.nextInt(tiles[1].length);
-        carvePassages(startX, startY);
+        generateMaze(startX, startY);
         return tiles;
     }
 
-    private void carvePassages(int startX, int startY)
+    private void generateMaze(int startX, int startY)
     {
-        tiles[startX][startY].visited = true;
         currentLocation = new Point(startX, startY);
         List<Direction> directions = DirectionUtil.getCardnialDirections();
         while (true)
         {
-            Collections.shuffle(directions);
             MazeTile currTile = tiles[currentLocation.x][currentLocation.y];
-            Direction nextDirection = firstCarvableDirection(directions, currentLocation);
-            if (nextDirection == Direction.None)//backtrack
+            currTile.visited = true;
+
+            Collections.shuffle(directions);
+            Direction nextCarvableDirection = firstCarvableDirection(directions, currentLocation);
+
+            if (nextCarvableDirection == Direction.None)//backtrack
             {
                 if (currTile.originatingDirection == Direction.None)
                     return;
-                currTile.visited = true;//Sometimes a tile cannot carve a new tile. It must be marked visited too
                 currentLocation = DirectionUtil.move(currTile.originatingDirection, currentLocation);
             }
             else //Explore!!
             {
-                currTile.carveTile(nextDirection);
-                currentLocation = DirectionUtil.move(nextDirection, currentLocation);
-                tiles[currentLocation.x][currentLocation.y].addOriginatingDirection(nextDirection);//Must be called after updating location
+                currTile.removeWall(nextCarvableDirection);
+                currentLocation = DirectionUtil.move(nextCarvableDirection, currentLocation);
+                tiles[currentLocation.x][currentLocation.y].addOriginatingDirection(nextCarvableDirection);//Must be called after updating location
             }
         }
     }

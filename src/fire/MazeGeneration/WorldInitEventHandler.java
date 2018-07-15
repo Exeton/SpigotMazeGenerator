@@ -12,6 +12,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.util.Vector;
 
+import java.util.Random;
+
 import static fire.MazeGeneration.MazeBlockBuilder.blocksToCells;
 
 public class WorldInitEventHandler implements Listener {
@@ -19,10 +21,10 @@ public class WorldInitEventHandler implements Listener {
     public void onInit(WorldInitEvent event)
     {
         //Todo fix error with maze generating to be 1 size even if mazeLenX and Z are diff
-        int mazeLenX = 33;
-        int mazeLenZ = 33;
+        int mazeLenX = 65;
+        int mazeLenZ = 65;
 
-        MazeGenerator mazeGenerator = new MazeGenerator(blocksToCells(mazeLenX), blocksToCells(mazeLenZ));
+        MazeGenerator mazeGenerator = new MazeGenerator(blocksToCells(mazeLenX), blocksToCells(mazeLenZ), new Random());
         StructureMapper structureMapper = new StructureMapper(new Vector(0,0,0), new Vector(100,255,100));
         IBlockPlacer blockPlacer = new MappingBlockPlacer(structureMapper);
         BuildingGenerator buildingGenerator =  new BuildingGenerator(blockPlacer,4, 3, Material.STAINED_CLAY, Material.STONE);
