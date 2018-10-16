@@ -15,8 +15,16 @@ class MazeGeneratorTest extends GroovyTestCase {
         Assert.assertTrue(mazeIsProperSize);
     }
 
-    void testNextMaze() throws Exception{
-        MazeGenerator mazeGenerator = new MazeGenerator(32, 32, new Random());
+    @Test
+    void testEveryMazeTileIsAccessible() throws Exception{
+        MazeGenerator mazeGenerator = new MazeGenerator(33, 33, new Random());
+
+        MazeTile[][] maze = mazeGenerator.nextMaze();
+        List<MazeTile> explored = new ArrayList<MazeTile>(maze.length * maze[0].length);
+        List<MazeTile> frontier = new LinkedList<MazeTile>();
+
+        frontier.add(meze[0][0]);
 
     }
+
 }

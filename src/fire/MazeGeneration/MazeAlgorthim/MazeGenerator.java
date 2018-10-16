@@ -82,7 +82,13 @@ public class MazeGenerator
     }
     private boolean inMazeDimension(int value, int dimension)
     {
-        return 0 <= value && value < tiles[dimension].length;
+        int size = 0;
+        if (dimension == 0)
+            size = tiles.length;
+        else if (dimension == 1)
+            size = tiles[0].length;
+
+        return 0 <= value && value < size;
     }
 
     public MazeTile[][] getMaze(){
