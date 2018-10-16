@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SpigotMazeGeneration.iml" filepath="$PROJECT_DIR$/SpigotMazeGeneration.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SpigotMazeGenerator.iml" filepath="$PROJECT_DIR$/SpigotMazeGenerator.iml" />
     </modules>
   </component>
 </project>
