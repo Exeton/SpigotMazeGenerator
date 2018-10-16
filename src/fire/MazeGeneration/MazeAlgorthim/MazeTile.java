@@ -1,5 +1,7 @@
 package fire.MazeGeneration.MazeAlgorthim;
 
+import java.awt.*;
+
 import static fire.MazeGeneration.MazeAlgorthim.DirectionUtil.Direction;
 
 public class MazeTile
@@ -32,5 +34,14 @@ public class MazeTile
     public boolean hasWall(Direction direction)
     {
         return walls[direction.getValue()];
+    }
+
+    public static boolean canTravel(MazeTile[][] maze, Point mazeTileLoc, Direction direction){
+        //Incomplete
+        MazeTile startingTile = maze[mazeTileLoc.x][mazeTileLoc.y];
+        if (!startingTile.hasWall(direction))
+            return true;
+
+        return false;
     }
 }
