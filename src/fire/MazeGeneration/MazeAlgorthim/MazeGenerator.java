@@ -23,13 +23,12 @@ public class MazeGenerator
 
     public MazeTile[][] nextMaze()
     {
-        for (int i = 0; i < tiles[0].length; i++)
-        {
-            for (int j = 0; j < tiles[1].length; j++)
+        for (int i = 0; i < tiles.length; i++)
+            for (int j = 0; j < tiles[0].length; j++)
                 tiles[i][j] = new MazeTile();
-        }
-        int startX = random.nextInt(tiles[0].length);
-        int startY = random.nextInt(tiles[1].length);
+
+        int startX = random.nextInt(tiles.length); //The tile map is an array of arrays
+        int startY = random.nextInt(tiles[0].length);
         generateMaze(startX, startY);
         return tiles;
     }
