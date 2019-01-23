@@ -1,6 +1,6 @@
-package fire.MazeGeneration.trapGeneration;
+package fire.spigot_maze_generator.trap_generation;
 
-import fire.MazeGeneration.MazeAlgorthim.MazeTile;
+import fire.spigot_maze_generator.maze_algorthim.MazeTile;
 
 import java.util.Random;
 

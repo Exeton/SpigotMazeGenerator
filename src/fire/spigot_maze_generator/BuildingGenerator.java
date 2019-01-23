@@ -1,11 +1,11 @@
-package fire.MazeGeneration;
+package fire.spigot_maze_generator;
 
-import fire.MazeGeneration.blockPlacing.IBlockPlacer;
+import fire.spigot_maze_generator.block_placing.IBlockPlacer;
 import org.bukkit.Material;
 import org.bukkit.util.Vector;
 
 
-import static fire.MazeGeneration.MazeAlgorthim.DirectionUtil.Direction;
+import static fire.spigot_maze_generator.maze_algorthim.DirectionUtil.Direction;
 
 public class BuildingGenerator {
     public int buildingElevation;

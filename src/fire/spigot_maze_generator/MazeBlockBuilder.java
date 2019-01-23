@@ -1,8 +1,8 @@
-package fire.MazeGeneration;
+package fire.spigot_maze_generator;
 
-import fire.MazeGeneration.MazeAlgorthim.DirectionUtil;
-import fire.MazeGeneration.MazeAlgorthim.MazeGenerator;
-import fire.MazeGeneration.MazeAlgorthim.MazeTile;
+import fire.spigot_maze_generator.maze_algorthim.DirectionUtil;
+import fire.spigot_maze_generator.maze_algorthim.MazeGenerator;
+import fire.spigot_maze_generator.maze_algorthim.MazeTile;
 import org.bukkit.util.Vector;
 
 public class MazeBlockBuilder {

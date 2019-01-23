@@ -1,4 +1,4 @@
-package fire.MazeGeneration.MazeAlgorthim
+package fire.spigot_maze_generator.maze_algorthim
 
 import org.junit.Assert
 import org.junit.Test

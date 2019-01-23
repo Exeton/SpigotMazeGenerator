@@ -1,6 +1,6 @@
-package fire.MazeGeneration.MazePopulators;
+package fire.spigot_maze_generator.maze_populators;
 
-import fire.MazeGeneration.StructureMapper;
+import fire.spigot_maze_generator.StructureMapper;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;

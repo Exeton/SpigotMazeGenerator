@@ -1,13 +1,11 @@
-package fire.MazeGeneration.trapGeneration;
+package fire.spigot_maze_generator.trap_generation;
 
-import fire.MazeGeneration.BuildingGenerator;
-import fire.MazeGeneration.MazeAlgorthim.MazeTile;
-import fire.MazeGeneration.blockPlacing.IBlockPlacer;
+import fire.spigot_maze_generator.maze_algorthim.MazeTile;
 
 import java.awt.*;
 import java.util.List;
 
-import static fire.MazeGeneration.MazeBlockBuilder.blocksToCells;
+import static fire.spigot_maze_generator.MazeBlockBuilder.blocksToCells;
 
 public class MazeTrapPlacer {
     ITrapDistributor trapDistributor;

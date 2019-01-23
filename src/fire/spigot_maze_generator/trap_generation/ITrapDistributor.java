@@ -1,6 +1,4 @@
-package fire.MazeGeneration.trapGeneration;
-
-import org.bukkit.Chunk;
+package fire.spigot_maze_generator.trap_generation;
 
 import  java.awt.Point;
 import java.util.List;

@@ -1,11 +1,11 @@
-package fire.MazeGeneration;
+package fire.spigot_maze_generator;
 
 
-import fire.MazeGeneration.MazeAlgorthim.MazeGenerator;
-import fire.MazeGeneration.MazePopulators.MappedStructurePopulator;
-import fire.MazeGeneration.blockPlacing.IBlockPlacer;
-import fire.MazeGeneration.blockPlacing.MappingBlockPlacer;
-import fire.MazeGeneration.trapGeneration.*;
+import fire.spigot_maze_generator.maze_algorthim.MazeGenerator;
+import fire.spigot_maze_generator.maze_populators.MappedStructurePopulator;
+import fire.spigot_maze_generator.block_placing.IBlockPlacer;
+import fire.spigot_maze_generator.block_placing.MappingBlockPlacer;
+import fire.spigot_maze_generator.trap_generation.*;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,7 +14,7 @@ import org.bukkit.util.Vector;
 
 import java.util.Random;
 
-import static fire.MazeGeneration.MazeBlockBuilder.blocksToCells;
+import static fire.spigot_maze_generator.MazeBlockBuilder.blocksToCells;
 
 public class WorldInitEventHandler implements Listener {
     @EventHandler

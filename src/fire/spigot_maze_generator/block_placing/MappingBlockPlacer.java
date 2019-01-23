@@ -1,6 +1,6 @@
-package fire.MazeGeneration.blockPlacing;
+package fire.spigot_maze_generator.block_placing;
 
-import fire.MazeGeneration.StructureMapper;
+import fire.spigot_maze_generator.StructureMapper;
 import org.bukkit.Material;
 import org.bukkit.util.Vector;
 

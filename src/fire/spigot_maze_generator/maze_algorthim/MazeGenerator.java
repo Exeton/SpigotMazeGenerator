@@ -1,10 +1,10 @@
-package fire.MazeGeneration.MazeAlgorthim;
+package fire.spigot_maze_generator.maze_algorthim;
 
 import java.awt.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import static fire.MazeGeneration.MazeAlgorthim.DirectionUtil.Direction;
+import static fire.spigot_maze_generator.maze_algorthim.DirectionUtil.Direction;
 
 /**
  * Generates a maze based off the recursive backtracking algorithm

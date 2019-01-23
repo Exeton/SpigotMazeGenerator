@@ -1,4 +1,4 @@
-package fire.MazeGeneration.trapGeneration;
+package fire.spigot_maze_generator.trap_generation;
 
 import java.awt.*;
 import java.util.LinkedList;

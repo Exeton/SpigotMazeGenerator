@@ -1,5 +1,4 @@
-#Don't forget to configure your spigot.yml file
-main: fire.MazeGeneration.MazeGeneration
+main: fire.spigot_maze_generator.SpigotMazeGenerator
 name: MazeGenerator
 version: 1.0
 author: FireFlower

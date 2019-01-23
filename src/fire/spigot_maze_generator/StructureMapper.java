@@ -1,4 +1,4 @@
-package fire.MazeGeneration;
+package fire.spigot_maze_generator;
 
 import org.bukkit.Chunk;
 import org.bukkit.Material;

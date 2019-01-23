@@ -1,8 +1,8 @@
-package fire.MazeGeneration.trapGeneration;
+package fire.spigot_maze_generator.trap_generation;
 
-import fire.MazeGeneration.BuildingGenerator;
-import fire.MazeGeneration.MazeAlgorthim.DirectionUtil;
-import fire.MazeGeneration.MazeAlgorthim.MazeTile;
+import fire.spigot_maze_generator.BuildingGenerator;
+import fire.spigot_maze_generator.maze_algorthim.DirectionUtil;
+import fire.spigot_maze_generator.maze_algorthim.MazeTile;
 import org.bukkit.Material;
 import org.bukkit.util.Vector;
 
