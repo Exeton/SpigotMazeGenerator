@@ -14,6 +14,7 @@ public class MazeGenerator
     Random random;
     Point currentLocation;
     MazeTile[][] tiles;
+    List<Direction> directions = DirectionUtil.getCardnialDirections();
 
     public MazeGenerator(int xLength, int yLength, Random Random)
     {
@@ -27,37 +28,47 @@ public class MazeGenerator
             for (int j = 0; j < tiles[0].length; j++)
                 tiles[i][j] = new MazeTile();
 
-        int startX = random.nextInt(tiles.length); //The tile map is an array of arrays
+        int startX = random.nextInt(tiles.length);
         int startY = random.nextInt(tiles[0].length);
         generateMaze(startX, startY);
         return tiles;
     }
 
-    private void generateMaze(int startX, int startY)
-    {
+    private MazeTile getCurrentTile(){
+        return tiles[currentLocation.x][currentLocation.y];
+    }
+
+    private void generateMaze(int startX, int startY){
         currentLocation = new Point(startX, startY);
-        List<Direction> directions = DirectionUtil.getCardnialDirections();
-        while (true)
-        {
-            MazeTile currTile = tiles[currentLocation.x][currentLocation.y];
-            currTile.visited = true;
+        while (true){
 
-            Collections.shuffle(directions);
-            Direction nextCarvableDirection = firstCarvableDirection(directions, currentLocation);
+            while (canStep())
+                step();
 
-            if (nextCarvableDirection == Direction.None)//backtrack
-            {
-                if (currTile.originatingDirection == Direction.None)
-                    return;
-                currentLocation = DirectionUtil.move(currTile.originatingDirection, currentLocation);
-            }
-            else //Explore!!
-            {
-                currTile.removeWall(nextCarvableDirection);
-                currentLocation = DirectionUtil.move(nextCarvableDirection, currentLocation);
-                tiles[currentLocation.x][currentLocation.y].addOriginatingDirection(nextCarvableDirection);//Must be called after updating location
-            }
+            backtrack();
+            if (!canStep() && getCurrentTile().originatingDirection == Direction.None) //Check finished
+                return;
         }
+    }
+
+    private boolean canStep(){
+        return firstCarvableDirection(directions, currentLocation) != Direction.None;
+    }
+
+    private void step(){
+        Direction direction = nextDirection();
+        getCurrentTile().removeWall(direction);
+        currentLocation = DirectionUtil.move(direction, currentLocation);
+        getCurrentTile().addOriginatingDirection(direction);//Must be called after updating location
+    }
+
+    private void backtrack(){
+        currentLocation = DirectionUtil.move(getCurrentTile().originatingDirection, currentLocation);
+    }
+
+    private Direction nextDirection(){
+        Collections.shuffle(directions);
+        return firstCarvableDirection(directions, currentLocation);
     }
 
     private Direction firstCarvableDirection(List<Direction> directions, Point currentLocation)
@@ -69,7 +80,7 @@ public class MazeGenerator
                 continue;
 
             MazeTile tileInDirection = tiles[locationInDirection.x][locationInDirection.y];
-            if (tileInDirection.visited)
+            if (tileInDirection.hasMissingWall)
                 continue;
 
             return direction;
