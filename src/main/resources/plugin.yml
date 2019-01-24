@@ -4,3 +4,7 @@ version: 1.0
 author: FireFlower
 description: Used to make mazes :D
 load: startup
+commands:
+  mazeGen:
+    description: Creates a maze
+    usage: /mazeGen

@@ -11,7 +11,6 @@ public class TnTTrapGenerator implements  ITrapGenerator{
         this.buildingGenerator = buildingGenerator;
     }
 
-    @Override
     public void generateTrap(int x, int z, MazeTile tile) {
         Vector pressurePlateLocation = new Vector(x, 1, z).add(buildingGenerator.buildingHeightAsVector());
         buildingGenerator.setBlockType(pressurePlateLocation, Material.STONE_PLATE);

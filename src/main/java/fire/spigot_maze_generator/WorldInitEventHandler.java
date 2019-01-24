@@ -20,6 +20,8 @@ public class WorldInitEventHandler implements Listener {
     @EventHandler
     public void onInit(WorldInitEvent event)
     {
+        /*
+        //Todo fix error with maze generating to be 1 size even if mazeLenX and Z are diff
         int mazeLenX = 65;
         int mazeLenZ = 65;
 
@@ -36,5 +38,6 @@ public class WorldInitEventHandler implements Listener {
 
         MazeTrapPlacer mazeTrapPlacer = new MazeTrapPlacer(multiTrapGenerator, mazeLenX, mazeLenZ);
         mazeTrapPlacer.addTraps(mazeGenerator.getMaze());
+        */
     }
 }

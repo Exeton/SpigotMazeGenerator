@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Random;
 
 public class UniformTrapDistributor implements ITrapDistributor{
-    int sizeX;
-    int sizeZ;
+    private int sizeX;
+    private int sizeZ;
     int uniformityMultiplier = 1;
     List<Point> trapLocations = new LinkedList<Point>();
     Random r = new Random();

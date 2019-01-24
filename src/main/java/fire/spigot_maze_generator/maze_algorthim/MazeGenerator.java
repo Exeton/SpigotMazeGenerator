@@ -80,6 +80,7 @@ public class MazeGenerator
     {
         return inMazeDimension(location.x, 0) && inMazeDimension(location.y, 1);
     }
+
     private boolean inMazeDimension(int value, int dimension)
     {
         int size = 0;
