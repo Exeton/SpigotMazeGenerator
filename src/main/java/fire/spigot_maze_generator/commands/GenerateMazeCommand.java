@@ -39,7 +39,7 @@ public class GenerateMazeCommand implements CommandExecutor {
         Location loc = player.getLocation();
 
         //Adjust amount of blocks
-        worldEditPlacer.resetSession(player.getWorld(), mazeLenX * mazeLenZ * 10, loc.getBlockX() - 1, loc.getBlockY(), loc.getBlockZ() - 1);
+        worldEditPlacer.resetSession(player.getWorld(), mazeLenX * mazeLenZ * 10, loc.getBlockX() - 1, loc.getBlockY() - 5, loc.getBlockZ() - 1);
 
         BuildingGenerator buildingGenerator =  new BuildingGenerator(worldEditPlacer,4, 3, Material.STAINED_CLAY, Material.STONE);
 

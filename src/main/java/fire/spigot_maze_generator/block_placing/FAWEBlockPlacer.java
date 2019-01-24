@@ -34,7 +34,7 @@ public class FAWEBlockPlacer implements IBlockPlacer {
         try {
             editSession.setBlock(new com.sk89q.worldedit.Vector(
                     location.getBlockX() + offsetX,
-                    location.getBlockY()+ offsetY - 4,
+                    location.getBlockY() + offsetY,
                     location.getBlockZ() + offsetZ), baseBlock);
 
         } catch (MaxChangedBlocksException e) {
