@@ -1,25 +1,34 @@
 package fire.spigot_maze_generator.trap_generation;
 
+import org.bukkit.Bukkit;
+
 import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
 public class UniformTrapDistributor implements ITrapDistributor{
+
+    public static int BlocksSquaredPerTrap = 100;
+
     private int sizeX;
     private int sizeZ;
     int uniformityMultiplier = 1;
     List<Point> trapLocations = new LinkedList<Point>();
     Random r = new Random();
-    public UniformTrapDistributor(int SizeX, int SizeZ){
-        sizeX = SizeX;
-        sizeZ = SizeZ;
+
+
+    public UniformTrapDistributor(int MazeTilesX, int MazeTilesZ){
+        sizeX = MazeTilesX;
+        sizeZ = MazeTilesZ;
     }
 
     @Override
     public List<Point> distributeTraps() {
+        int amountOfTraps = (2 * sizeX) * (2 * sizeZ) / BlocksSquaredPerTrap;
+
         trapLocations = new LinkedList<Point>();
-        for (int traps = 0; traps < 25; traps++)
+        for (int traps = 0; traps < amountOfTraps; traps++)
         {
             addTrap();
         }

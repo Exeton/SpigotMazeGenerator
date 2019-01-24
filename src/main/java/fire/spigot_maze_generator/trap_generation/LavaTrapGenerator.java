@@ -3,6 +3,7 @@ package fire.spigot_maze_generator.trap_generation;
 import fire.spigot_maze_generator.BuildingGenerator;
 import fire.spigot_maze_generator.maze_algorthim.DirectionUtil;
 import fire.spigot_maze_generator.maze_algorthim.MazeTile;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.util.Vector;
 
@@ -15,8 +16,7 @@ public class LavaTrapGenerator implements  ITrapGenerator{
     @Override
     public void generateTrap(int x, int z, MazeTile tile) {
 
-        Vector floorLoc = new Vector(x, 0, z).add(buildingGenerator.buildingHeightAsVector());
-        Vector lavaLoc = new Vector(x, -1, z).add(buildingGenerator.buildingHeightAsVector());
+        Vector lavaLoc = new Vector(x, 0, z).add(buildingGenerator.buildingHeightAsVector());
         DirectionUtil.Direction direction = DirectionUtil.Direction.North;
 
         if (!tile.hasWall(DirectionUtil.Direction.North))
@@ -24,17 +24,15 @@ public class LavaTrapGenerator implements  ITrapGenerator{
         else if (!tile.hasWall(DirectionUtil.Direction.West))
             direction = DirectionUtil.Direction.East;
 
-        //Translate floor pos and lava to starting position. (x and z parameters are the center of the block)
-        for (int i = 0; i < 2; i++){
-            floorLoc.subtract(direction.getDirectionVector());
+        //Translate lava pos to starting position. (x and z parameters are the center of the block)
+        for (int i = 0; i < 2; i++)
             lavaLoc.subtract(direction.getDirectionVector());
-        }
 
         for (int i = 0; i < 3; i++){
-            buildingGenerator.setBlockType(floorLoc, Material.AIR);
             buildingGenerator.setBlockType(lavaLoc, Material.LAVA);
-            floorLoc = floorLoc.add(direction.getDirectionVector());
+            buildingGenerator.setBlockType(lavaLoc.clone().subtract(new Vector(0, 1, 0)), Material.GLASS);
             lavaLoc = lavaLoc.add(direction.getDirectionVector());
         }
+
     }
 }
