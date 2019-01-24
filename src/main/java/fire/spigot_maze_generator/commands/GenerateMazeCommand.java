@@ -30,8 +30,21 @@ public class GenerateMazeCommand implements CommandExecutor {
         Player player = (Player)commandSender;
 
 
-        int mazeLenX = 65;
-        int mazeLenZ = 65;
+        if (strings.length < 2)
+            return false;
+
+        int mazeLenX;
+        int mazeLenZ;
+
+        try {
+            mazeLenX = Integer.parseInt(strings[0]);
+            mazeLenZ = Integer.parseInt(strings[1]);
+        }
+        catch(Exception e){
+            return false;
+        }
+
+
 
         MazeGenerator mazeGenerator = new MazeGenerator(blocksToCells(mazeLenX), blocksToCells(mazeLenZ), new Random());
         FAWEBlockPlacer worldEditPlacer = new FAWEBlockPlacer();

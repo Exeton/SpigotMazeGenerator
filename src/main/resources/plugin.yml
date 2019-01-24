@@ -7,4 +7,4 @@ load: startup
 commands:
   mazeGen:
     description: Creates a maze
-    usage: /mazeGen
+    usage: /mazeGen xLenght zLength
