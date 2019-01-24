@@ -4,5 +4,5 @@ import  java.awt.Point;
 import java.util.List;
 
 public interface ITrapDistributor {
-    List<Point> distributeTraps();
+    List<Point> distributeTraps(int MazeTilesX, int MazeTilesZ);
 }

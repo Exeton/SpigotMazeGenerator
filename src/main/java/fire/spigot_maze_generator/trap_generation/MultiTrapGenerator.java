@@ -11,6 +11,9 @@ public class MultiTrapGenerator implements ITrapGenerator{
     public MultiTrapGenerator(ITrapGenerator... trapGenerators){
         generators = trapGenerators;
     }
+
+
+
     @Override
     public void generateTrap(int x, int z, MazeTile tiles) {
         int generatorIndex = random.nextInt(generators.length);

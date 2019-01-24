@@ -2,6 +2,7 @@ package fire.spigot_maze_generator.commands;
 
 import fire.spigot_maze_generator.BuildingGenerator;
 import fire.spigot_maze_generator.MazeBlockBuilder;
+import fire.spigot_maze_generator.SpigotMazeGenerator;
 import fire.spigot_maze_generator.block_placing.FAWEBlockPlacer;
 import fire.spigot_maze_generator.maze_algorthim.MazeGenerator;
 import fire.spigot_maze_generator.trap_generation.LavaTrapGenerator;
@@ -15,11 +16,23 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Random;
 
 import static fire.spigot_maze_generator.MazeBlockBuilder.blocksToCells;
 
 public class GenerateMazeCommand implements CommandExecutor {
+
+    FAWEBlockPlacer worldEditPlacer;
+    MazeTrapPlacer mazeTrapPlacer;
+    MazeGenerator mazeGenerator;
+    MazeBlockBuilder mazeBuilder;
+
+
+    public GenerateMazeCommand(FAWEBlockPlacer worldEditPlacer, MazeTrapPlacer mazeTrapPlacer, MazeGenerator mazeGenerator, MazeBlockBuilder mazeBuilder){
+        this.worldEditPlacer = worldEditPlacer;
+        this.mazeTrapPlacer = mazeTrapPlacer;
+        this.mazeGenerator = mazeGenerator;
+        this.mazeBuilder = mazeBuilder;
+    }
 
 
     @Override
@@ -43,26 +56,14 @@ public class GenerateMazeCommand implements CommandExecutor {
         catch(Exception e){
             return false;
         }
-
-
-
-        MazeGenerator mazeGenerator = new MazeGenerator(blocksToCells(mazeLenX), blocksToCells(mazeLenZ), new Random());
-        FAWEBlockPlacer worldEditPlacer = new FAWEBlockPlacer();
-
         Location loc = player.getLocation();
 
         //Adjust amount of blocks
-        worldEditPlacer.resetSession(player.getWorld(), mazeLenX * mazeLenZ * 10, loc.getBlockX() - 1, loc.getBlockY() - 5, loc.getBlockZ() - 1);
+        worldEditPlacer.resetSession(player.getWorld(), mazeLenX * mazeLenZ * 6, loc.getBlockX() - 1, loc.getBlockY() - 5, loc.getBlockZ() - 1);
+        mazeBuilder.fillStructureMap(blocksToCells(mazeLenX), blocksToCells(mazeLenZ));
 
-        BuildingGenerator buildingGenerator =  new BuildingGenerator(worldEditPlacer,4, 3, Material.STAINED_CLAY, Material.STONE);
-
-        MazeBlockBuilder mazeMapWriter = new MazeBlockBuilder(buildingGenerator, mazeGenerator);
-        mazeMapWriter.fillStructureMap();
-
-        MultiTrapGenerator multiTrapGenerator = new MultiTrapGenerator(new LavaTrapGenerator(buildingGenerator), new TnTTrapGenerator(buildingGenerator));
-
-        MazeTrapPlacer mazeTrapPlacer = new MazeTrapPlacer(multiTrapGenerator, mazeLenX, mazeLenZ);
-        mazeTrapPlacer.addTraps(mazeGenerator.getMaze());
+        if (SpigotMazeGenerator.placeTraps)
+            mazeTrapPlacer.addTraps(mazeGenerator.getMaze(), blocksToCells(mazeLenX), blocksToCells(mazeLenZ));
 
         worldEditPlacer.applyChanges();
 

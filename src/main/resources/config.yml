@@ -1,0 +1,15 @@
+# Material names can be found here. If you use a non existent material, it will be generated in as air.
+# https://hub.spigotmc.org/javadocs/spigot/org/bukkit/material/package-summary.html
+WallMaterial: Wood
+FloorMaterial: Stone
+
+#How many blocks per trap.
+#I.e. if BlocksPerTrap is 100, there will be 1 trap in every 10x10 area
+BlocksPerTrap: 200
+
+GenerateTraps: true
+GenerateLavaTrap: false
+GenerateTnTTrap: true
+
+#Path size option: Coming soon
+PathSize: 1

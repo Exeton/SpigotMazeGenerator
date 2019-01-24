@@ -13,10 +13,10 @@ public class MazeBlockBuilder {
         this.buildingGenerator = buildingGenerator;
         this.mazeGenerator = mazeGenerator;
     }
-    public void fillStructureMap(){
-        MazeTile[][] maze = mazeGenerator.nextMaze();
+    public void fillStructureMap(int mazeLenX, int mazeLenZ){
+        MazeTile[][] maze = mazeGenerator.nextMaze(mazeLenX, mazeLenZ);
         int mazeTilesX = maze.length;
-        int mazeTilesZ = maze[1].length;
+        int mazeTilesZ = maze[0].length;
 
         clearMazeArea(mazeTilesX, mazeTilesZ);
         makeFloor(mazeTilesX, mazeTilesZ);
@@ -31,8 +31,8 @@ public class MazeBlockBuilder {
         buildingGenerator.makeFloor(0,0, mazeTilesToBlocks(mazeTilesX), mazeTilesToBlocks(mazeTilesZ));
     }
     private void makeMazeBorder(MazeTile[][] maze){
-        buildingGenerator.makeWall(2 * maze.length, 0, DirectionUtil.Direction.South, mazeTilesToBlocks(maze[1].length));
-        buildingGenerator.makeWall(0, 2 * maze[1].length, DirectionUtil.Direction.East, mazeTilesToBlocks(maze.length));
+        buildingGenerator.makeWall(2 * maze.length, 0, DirectionUtil.Direction.South, mazeTilesToBlocks(maze[0].length));
+        buildingGenerator.makeWall(0, 2 * maze[0].length, DirectionUtil.Direction.East, mazeTilesToBlocks(maze.length));
     }
     private void makeInteriorMazeWalls(MazeTile[][] maze){
         for (int x = 0; x < maze.length; x++)

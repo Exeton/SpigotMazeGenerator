@@ -16,14 +16,14 @@ public class MazeGenerator
     MazeTile[][] tiles;
     List<Direction> directions = DirectionUtil.getCardnialDirections();
 
-    public MazeGenerator(int xLength, int yLength, Random Random)
+    public MazeGenerator(Random Random)
     {
-        tiles = new MazeTile[xLength][yLength];
         random = Random;
     }
 
-    public MazeTile[][] nextMaze()
+    public MazeTile[][] nextMaze(int xLength, int yLength)
     {
+        tiles = new MazeTile[xLength][yLength];
         for (int i = 0; i < tiles.length; i++)
             for (int j = 0; j < tiles[0].length; j++)
                 tiles[i][j] = new MazeTile();
