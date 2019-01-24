@@ -1,10 +1,11 @@
-package fire.spigot_maze_generator.block_placing;
+package fire.spigot_maze_generator.depercated;
 
 import fire.spigot_maze_generator.StructureMapper;
+import fire.spigot_maze_generator.block_placing.IBlockPlacer;
 import org.bukkit.Material;
 import org.bukkit.util.Vector;
 
-public class MappingBlockPlacer implements  IBlockPlacer{
+public class MappingBlockPlacer implements IBlockPlacer {
 
     StructureMapper structureMapper;
     public MappingBlockPlacer(StructureMapper structureMapper){

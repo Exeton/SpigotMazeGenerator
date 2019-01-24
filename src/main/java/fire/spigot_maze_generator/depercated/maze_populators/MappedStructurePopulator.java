@@ -1,4 +1,4 @@
-package fire.spigot_maze_generator.maze_populators;
+package fire.spigot_maze_generator.depercated.maze_populators;
 
 import fire.spigot_maze_generator.StructureMapper;
 import org.bukkit.Chunk;
